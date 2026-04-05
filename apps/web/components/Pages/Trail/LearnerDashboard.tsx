@@ -89,18 +89,19 @@ function LearnerDashboard({ orgslug }: LearnerDashboardProps) {
   const access_token = session?.data?.tokens?.access_token
   const org = useOrg() as any
   const orgID = org?.id
+  const canFetch = Boolean(orgID && access_token)
 
-  const { data, error, isLoading } = useSWR<DashboardData>(
-    orgID && access_token
-      ? `${getAPIUrl()}trail/org/${orgID}/dashboard`
-      : null,
+  const { data, error, isLoading, mutate } = useSWR<DashboardData>(
+    canFetch ? `${getAPIUrl()}trail/org/${orgID}/dashboard` : null,
     (url: string) => swrFetcher(url, access_token)
   )
 
-  if (!orgID || !access_token || isLoading) {
+  if (!canFetch) return null
+
+  if (isLoading) {
     return (
-      <div className="mb-8 grid grid-cols-2 md:grid-cols-4 gap-3">
-        {[1, 2, 3, 4].map((i) => (
+      <div className="mb-8 grid grid-cols-2 md:grid-cols-5 gap-3">
+        {[1, 2, 3, 4, 5].map((i) => (
           <div
             key={i}
             className="h-24 bg-white rounded-xl nice-shadow animate-pulse"
@@ -112,18 +113,29 @@ function LearnerDashboard({ orgslug }: LearnerDashboardProps) {
 
   if (error) {
     return (
-      <div className="mb-8 flex items-center gap-2 rounded-xl bg-red-50 p-4 text-sm text-red-700">
-        <AlertCircle size={16} className="shrink-0" />
-        {t('trail.dashboard.error_loading')}
+      <div className="mb-8 flex items-center justify-between gap-3 rounded-xl border border-red-100 bg-red-50 p-4 text-sm text-red-700">
+        <div className="flex items-center gap-2">
+          <AlertCircle size={16} className="shrink-0" />
+          <span>{t('trail.dashboard.error_loading')}</span>
+        </div>
+        <button
+          type="button"
+          onClick={() => void mutate()}
+          className="shrink-0 rounded-md border border-red-200 bg-white px-3 py-1.5 text-xs font-semibold text-red-700 transition-colors hover:bg-red-100"
+        >
+          {t('courses.create.ai.retry')}
+        </button>
       </div>
     )
   }
 
   if (!data) return null
 
-  const hasEnrollment =
-    data.courses_in_progress > 0 || data.courses_completed > 0
-  if (!hasEnrollment) return null
+  const hasDashboardContent =
+    data.total_activities > 0 ||
+    data.upcoming_deadlines.length > 0 ||
+    data.recent_activity.some((day) => day.count > 0)
+  if (!hasDashboardContent) return null
 
   const pct = data.overall_completion_percent
   const circumference = 2 * Math.PI * 36

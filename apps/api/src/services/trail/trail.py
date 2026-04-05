@@ -484,6 +484,7 @@ _SESSION_GAP_MINUTES = 30
 # Cap per individual inter-step interval so a single long gap can't
 # inflate the metric even within the session-gap window.
 _PER_INTERVAL_CAP_MINUTES = 15
+_ACTIVE_DAY_BASELINE_MINUTES = 5
 
 
 def _estimate_time_spent_minutes(step_datetimes: list[datetime]) -> int:
@@ -491,8 +492,9 @@ def _estimate_time_spent_minutes(step_datetimes: list[datetime]) -> int:
 
     Heuristic: for consecutive steps on the same calendar day, the gap
     between them counts as active time — capped at _PER_INTERVAL_CAP_MINUTES
-    per interval and only when the gap is < _SESSION_GAP_MINUTES.
-    Each unique activity day gets a baseline of 5 min even with only one step.
+    per interval and only when the gap is <= _SESSION_GAP_MINUTES.
+    Each unique activity day gets a baseline of _ACTIVE_DAY_BASELINE_MINUTES
+    even with only one step.
     """
     if not step_datetimes:
         return 0
@@ -507,13 +509,13 @@ def _estimate_time_spent_minutes(step_datetimes: list[datetime]) -> int:
     for curr in sorted_dts[1:]:
         days_seen.add(curr.date())
         gap = (curr - prev).total_seconds() / 60.0
-        if gap < _SESSION_GAP_MINUTES:
+        if gap <= _SESSION_GAP_MINUTES:
             total_minutes += min(gap, _PER_INTERVAL_CAP_MINUTES)
         prev = curr
 
     # Baseline: 5 min per active day (accounts for reading time before
     # the first step and single-step days).
-    baseline = len(days_seen) * 5
+    baseline = len(days_seen) * _ACTIVE_DAY_BASELINE_MINUTES
     return round(max(total_minutes, baseline))
 
 
@@ -584,7 +586,7 @@ async def get_learner_dashboard(
         for cid in course_ids
     )
     overall_pct = (
-        round((completed_activities / total_activities) * 100)
+        min(100, round((completed_activities / total_activities) * 100))
         if total_activities > 0
         else 0
     )

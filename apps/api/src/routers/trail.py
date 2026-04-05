@@ -68,8 +68,8 @@ async def api_get_learner_dashboard(
     db_session=Depends(get_db_session),
 ) -> LearnerDashboard:
     """
-    Learner-facing momentum dashboard: overall completion, streak,
-    recent activity heatmap and upcoming assignment deadlines.
+    Learner-facing momentum dashboard: overall completion, estimated time spent,
+    streak, recent activity heatmap, and upcoming assignment deadlines.
     """
     return await get_learner_dashboard(
         request, user, org_id=org_id, db_session=db_session
