@@ -3571,5 +3571,25 @@
       "results": "\"{{query}}\" के लिए {{count}} परिणाम",
       "results_plural": "\"{{query}}\" के लिए {{count}} परिणाम"
     }
+  },
+  "trail": {
+    "dashboard": {
+      "overall_progress": "समग्र प्रगति",
+      "streak": "लगातार दिन",
+      "days": "दिन",
+      "keep_going": "जारी रखें!",
+      "complete_activity_to_start": "श्रृंखला शुरू करने के लिए एक गतिविधि पूरी करें",
+      "in_progress": "प्रगति में",
+      "last_30_days": "पिछले 30 दिन",
+      "last_active": "अंतिम सक्रिय",
+      "upcoming_deadlines": "आगामी समय सीमाएँ",
+      "no_upcoming_deadlines": "कोई आगामी समय सीमा नहीं",
+      "time_spent": "बिताया गया समय",
+      "time_estimated": "गतिविधि से अनुमानित",
+      "time_minutes": "{{count}} मिनट",
+      "time_hours": "{{count}} घंटा",
+      "time_hours_minutes": "{{hours}} घंटा {{minutes}} मिनट",
+      "error_loading": "आपका डैशबोर्ड लोड नहीं हो सका। कृपया बाद में पुनः प्रयास करें।"
+    }
   }
 }

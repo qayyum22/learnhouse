@@ -3336,5 +3336,25 @@
         "range": "{{from}}–{{to}} / {{total}}"
       }
     }
+  },
+  "trail": {
+    "dashboard": {
+      "overall_progress": "Tiến độ chung",
+      "streak": "Chuỗi ngày",
+      "days": "ngày",
+      "keep_going": "Tiếp tục nhé!",
+      "complete_activity_to_start": "Hoàn thành một hoạt động để bắt đầu chuỗi",
+      "in_progress": "Đang tiến hành",
+      "last_30_days": "30 ngày qua",
+      "last_active": "Hoạt động cuối",
+      "upcoming_deadlines": "Hạn chót sắp tới",
+      "no_upcoming_deadlines": "Không có hạn chót sắp tới",
+      "time_spent": "Thời gian đã học",
+      "time_estimated": "Ước tính từ hoạt động",
+      "time_minutes": "{{count}} phút",
+      "time_hours": "{{count}} giờ",
+      "time_hours_minutes": "{{hours}} giờ {{minutes}} phút",
+      "error_loading": "Không thể tải bảng điều khiển. Vui lòng thử lại sau."
+    }
   }
 }

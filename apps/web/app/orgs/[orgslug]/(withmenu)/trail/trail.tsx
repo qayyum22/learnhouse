@@ -2,6 +2,7 @@
 import { useLHSession } from '@components/Contexts/LHSessionContext'
 import { useOrg } from '@components/Contexts/OrgContext'
 import PageLoading from '@components/Objects/Loaders/PageLoading'
+import LearnerDashboard from '@components/Pages/Trail/LearnerDashboard'
 import TrailCourseCard from '@components/Pages/Trail/TrailCourseCard'
 import UserCertificates from '@components/Pages/Trail/UserCertificates'
 import TypeOfContentTitle from '@components/Objects/StyledElements/Titles/TypeOfContentTitle'
@@ -72,6 +73,8 @@ function Trail(params: any) {
       context="public"
     >
     <GeneralWrapperStyled>
+      <LearnerDashboard orgslug={orgslug} />
+
       <div className="flex flex-col space-y-2 mb-6">
         <div className="flex items-center justify-between">
           <TypeOfContentTitle title={t('courses.progress')} type="tra" />

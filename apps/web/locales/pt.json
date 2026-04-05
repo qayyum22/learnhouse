@@ -3396,5 +3396,25 @@
         "range": "{{from}}–{{to}} de {{total}}"
       }
     }
+  },
+  "trail": {
+    "dashboard": {
+      "overall_progress": "Progresso geral",
+      "streak": "Sequência",
+      "days": "dias",
+      "keep_going": "Continue assim!",
+      "complete_activity_to_start": "Conclua uma atividade para iniciar uma sequência",
+      "in_progress": "Em andamento",
+      "last_30_days": "Últimos 30 dias",
+      "last_active": "Última atividade",
+      "upcoming_deadlines": "Próximos prazos",
+      "no_upcoming_deadlines": "Sem prazos próximos",
+      "time_spent": "Tempo gasto",
+      "time_estimated": "Estimado a partir da atividade",
+      "time_minutes": "{{count}} min",
+      "time_hours": "{{count}} h",
+      "time_hours_minutes": "{{hours}} h {{minutes}} min",
+      "error_loading": "Não foi possível carregar seu painel. Tente novamente mais tarde."
+    }
   }
 }

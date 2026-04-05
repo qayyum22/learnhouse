@@ -3337,5 +3337,25 @@
         "range": "{{from}}–{{to}} / {{total}}"
       }
     }
+  },
+  "trail": {
+    "dashboard": {
+      "overall_progress": "Genel ilerleme",
+      "streak": "Seri",
+      "days": "gün",
+      "keep_going": "Devam et!",
+      "complete_activity_to_start": "Seri başlatmak için bir etkinlik tamamla",
+      "in_progress": "Devam ediyor",
+      "last_30_days": "Son 30 gün",
+      "last_active": "Son etkinlik",
+      "upcoming_deadlines": "Yaklaşan son tarihler",
+      "no_upcoming_deadlines": "Yaklaşan son tarih yok",
+      "time_spent": "Harcanan zaman",
+      "time_estimated": "Etkinlikten tahmin edilen",
+      "time_minutes": "{{count}} dk",
+      "time_hours": "{{count}} sa",
+      "time_hours_minutes": "{{hours}} sa {{minutes}} dk",
+      "error_loading": "Kontrol paneliniz yüklenemedi. Lütfen daha sonra tekrar deneyin."
+    }
   }
 }

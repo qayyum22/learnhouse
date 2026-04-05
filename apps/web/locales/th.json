@@ -3336,5 +3336,25 @@
         "range": "{{from}}–{{to}} จาก {{total}}"
       }
     }
+  },
+  "trail": {
+    "dashboard": {
+      "overall_progress": "ความก้าวหน้าโดยรวม",
+      "streak": "สตรีค",
+      "days": "วัน",
+      "keep_going": "สู้ต่อไป!",
+      "complete_activity_to_start": "ทำกิจกรรมให้เสร็จเพื่อเริ่มสตรีค",
+      "in_progress": "กำลังดำเนินการ",
+      "last_30_days": "30 วันล่าสุด",
+      "last_active": "ใช้งานล่าสุด",
+      "upcoming_deadlines": "กำหนดส่งที่กำลังจะถึง",
+      "no_upcoming_deadlines": "ไม่มีกำหนดส่งที่กำลังจะถึง",
+      "time_spent": "เวลาที่ใช้",
+      "time_estimated": "ประมาณจากกิจกรรม",
+      "time_minutes": "{{count}} นาที",
+      "time_hours": "{{count}} ชั่วโมง",
+      "time_hours_minutes": "{{hours}} ชั่วโมง {{minutes}} นาที",
+      "error_loading": "ไม่สามารถโหลดแดชบอร์ดได้ กรุณาลองใหม่ภายหลัง"
+    }
   }
 }

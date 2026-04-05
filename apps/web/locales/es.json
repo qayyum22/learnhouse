@@ -4015,5 +4015,25 @@
       "results": "{{count}} resultado para \"{{query}}\"",
       "results_plural": "{{count}} resultados para \"{{query}}\""
     }
+  },
+  "trail": {
+    "dashboard": {
+      "overall_progress": "Progreso general",
+      "streak": "Racha",
+      "days": "días",
+      "keep_going": "¡Sigue así!",
+      "complete_activity_to_start": "Completa una actividad para iniciar una racha",
+      "in_progress": "En progreso",
+      "last_30_days": "Últimos 30 días",
+      "last_active": "Última actividad",
+      "upcoming_deadlines": "Próximas fechas límite",
+      "no_upcoming_deadlines": "Sin fechas límite próximas",
+      "time_spent": "Tiempo dedicado",
+      "time_estimated": "Estimado de la actividad",
+      "time_minutes": "{{count}} min",
+      "time_hours": "{{count}} h",
+      "time_hours_minutes": "{{hours}} h {{minutes}} min",
+      "error_loading": "No se pudo cargar tu panel. Inténtalo de nuevo más tarde."
+    }
   }
 }

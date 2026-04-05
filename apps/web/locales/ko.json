@@ -3352,5 +3352,25 @@
         "range": "{{from}}–{{to}} / {{total}}"
       }
     }
+  },
+  "trail": {
+    "dashboard": {
+      "overall_progress": "전체 진행률",
+      "streak": "연속 학습",
+      "days": "일",
+      "keep_going": "계속 화이팅!",
+      "complete_activity_to_start": "활동을 완료하여 연속 기록을 시작하세요",
+      "in_progress": "진행 중",
+      "last_30_days": "최근 30일",
+      "last_active": "마지막 활동",
+      "upcoming_deadlines": "다가오는 마감일",
+      "no_upcoming_deadlines": "다가오는 마감일 없음",
+      "time_spent": "학습 시간",
+      "time_estimated": "활동에서 추정",
+      "time_minutes": "{{count}}분",
+      "time_hours": "{{count}}시간",
+      "time_hours_minutes": "{{hours}}시간 {{minutes}}분",
+      "error_loading": "대시보드를 불러올 수 없습니다. 나중에 다시 시도해 주세요."
+    }
   }
 }

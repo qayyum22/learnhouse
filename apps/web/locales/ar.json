@@ -4025,5 +4025,25 @@
       "results": "{{count}} نتيجة لـ \"{{query}}\"",
       "results_plural": "{{count}} نتائج لـ \"{{query}}\""
     }
+  },
+  "trail": {
+    "dashboard": {
+      "overall_progress": "التقدم العام",
+      "streak": "سلسلة النشاط",
+      "days": "أيام",
+      "keep_going": "استمر!",
+      "complete_activity_to_start": "أكمل نشاطاً لبدء سلسلة",
+      "in_progress": "قيد التقدم",
+      "last_30_days": "آخر 30 يوماً",
+      "last_active": "آخر نشاط",
+      "upcoming_deadlines": "المواعيد القادمة",
+      "no_upcoming_deadlines": "لا توجد مواعيد قادمة",
+      "time_spent": "الوقت المستغرق",
+      "time_estimated": "تقدير من النشاط",
+      "time_minutes": "{{count}} دقيقة",
+      "time_hours": "{{count}} ساعة",
+      "time_hours_minutes": "{{hours}} ساعة {{minutes}} دقيقة",
+      "error_loading": "تعذر تحميل لوحة المعلومات. يرجى المحاولة مرة أخرى لاحقاً."
+    }
   }
 }

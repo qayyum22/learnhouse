@@ -3572,5 +3572,25 @@
       "results": "\"{{query}}\" এর জন্য {{count}} ফলাফল",
       "results_plural": "\"{{query}}\" এর জন্য {{count}} ফলাফল"
     }
+  },
+  "trail": {
+    "dashboard": {
+      "overall_progress": "সামগ্রিক অগ্রগতি",
+      "streak": "ধারাবাহিকতা",
+      "days": "দিন",
+      "keep_going": "চালিয়ে যান!",
+      "complete_activity_to_start": "ধারাবাহিকতা শুরু করতে একটি কার্যকলাপ সম্পন্ন করুন",
+      "in_progress": "চলমান",
+      "last_30_days": "গত ৩০ দিন",
+      "last_active": "সর্বশেষ সক্রিয়",
+      "upcoming_deadlines": "আসন্ন সময়সীমা",
+      "no_upcoming_deadlines": "কোনো আসন্ন সময়সীমা নেই",
+      "time_spent": "ব্যয়িত সময়",
+      "time_estimated": "কার্যকলাপ থেকে আনুমানিক",
+      "time_minutes": "{{count}} মিনিট",
+      "time_hours": "{{count}} ঘণ্টা",
+      "time_hours_minutes": "{{hours}} ঘণ্টা {{minutes}} মিনিট",
+      "error_loading": "আপনার ড্যাশবোর্ড লোড করা যায়নি। পরে আবার চেষ্টা করুন।"
+    }
   }
 }

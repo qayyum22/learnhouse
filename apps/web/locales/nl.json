@@ -3343,5 +3343,25 @@
         "range": "{{from}}–{{to}} van {{total}}"
       }
     }
+  },
+  "trail": {
+    "dashboard": {
+      "overall_progress": "Totale voortgang",
+      "streak": "Reeks",
+      "days": "dagen",
+      "keep_going": "Ga zo door!",
+      "complete_activity_to_start": "Voltooi een activiteit om een reeks te starten",
+      "in_progress": "Bezig",
+      "last_30_days": "Laatste 30 dagen",
+      "last_active": "Laatst actief",
+      "upcoming_deadlines": "Komende deadlines",
+      "no_upcoming_deadlines": "Geen komende deadlines",
+      "time_spent": "Bestede tijd",
+      "time_estimated": "Geschat op basis van activiteit",
+      "time_minutes": "{{count}} min",
+      "time_hours": "{{count}} uur",
+      "time_hours_minutes": "{{hours}} uur {{minutes}} min",
+      "error_loading": "Kon je dashboard niet laden. Probeer het later opnieuw."
+    }
   }
 }

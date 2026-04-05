@@ -3337,5 +3337,25 @@
         "range": "{{from}}–{{to}} z {{total}}"
       }
     }
+  },
+  "trail": {
+    "dashboard": {
+      "overall_progress": "Ogólny postęp",
+      "streak": "Seria",
+      "days": "dni",
+      "keep_going": "Tak trzymaj!",
+      "complete_activity_to_start": "Ukończ aktywność, aby rozpocząć serię",
+      "in_progress": "W trakcie",
+      "last_30_days": "Ostatnie 30 dni",
+      "last_active": "Ostatnia aktywność",
+      "upcoming_deadlines": "Nadchodzące terminy",
+      "no_upcoming_deadlines": "Brak nadchodzących terminów",
+      "time_spent": "Poświęcony czas",
+      "time_estimated": "Oszacowano na podstawie aktywności",
+      "time_minutes": "{{count}} min",
+      "time_hours": "{{count}} godz.",
+      "time_hours_minutes": "{{hours}} godz. {{minutes}} min",
+      "error_loading": "Nie udało się załadować panelu. Spróbuj ponownie później."
+    }
   }
 }

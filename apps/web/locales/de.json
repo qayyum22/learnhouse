@@ -4015,5 +4015,25 @@
       "results": "{{count}} Ergebnis für \"{{query}}\"",
       "results_plural": "{{count}} Ergebnisse für \"{{query}}\""
     }
+  },
+  "trail": {
+    "dashboard": {
+      "overall_progress": "Gesamtfortschritt",
+      "streak": "Serie",
+      "days": "Tage",
+      "keep_going": "Weiter so!",
+      "complete_activity_to_start": "Schließe eine Aktivität ab, um eine Serie zu starten",
+      "in_progress": "In Bearbeitung",
+      "last_30_days": "Letzte 30 Tage",
+      "last_active": "Zuletzt aktiv",
+      "upcoming_deadlines": "Anstehende Fristen",
+      "no_upcoming_deadlines": "Keine anstehenden Fristen",
+      "time_spent": "Zeitaufwand",
+      "time_estimated": "Geschätzt aus Aktivität",
+      "time_minutes": "{{count}} Min.",
+      "time_hours": "{{count}} Std.",
+      "time_hours_minutes": "{{hours}} Std. {{minutes}} Min.",
+      "error_loading": "Dashboard konnte nicht geladen werden. Bitte versuche es später erneut."
+    }
   }
 }

@@ -3406,5 +3406,25 @@
         "range": "{{from}}–{{to}} / {{total}}"
       }
     }
+  },
+  "trail": {
+    "dashboard": {
+      "overall_progress": "总体进度",
+      "streak": "连续天数",
+      "days": "天",
+      "keep_going": "继续保持！",
+      "complete_activity_to_start": "完成一个活动以开始连续记录",
+      "in_progress": "进行中",
+      "last_30_days": "最近30天",
+      "last_active": "最近活动",
+      "upcoming_deadlines": "即将到来的截止日期",
+      "no_upcoming_deadlines": "没有即将到来的截止日期",
+      "time_spent": "学习时间",
+      "time_estimated": "根据活动估算",
+      "time_minutes": "{{count}}分钟",
+      "time_hours": "{{count}}小时",
+      "time_hours_minutes": "{{hours}}小时{{minutes}}分钟",
+      "error_loading": "无法加载仪表板。请稍后再试。"
+    }
   }
 }

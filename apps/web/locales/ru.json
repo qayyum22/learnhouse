@@ -3390,5 +3390,25 @@
         "range": "{{from}}–{{to}} из {{total}}"
       }
     }
+  },
+  "trail": {
+    "dashboard": {
+      "overall_progress": "Общий прогресс",
+      "streak": "Серия",
+      "days": "дней",
+      "keep_going": "Продолжайте!",
+      "complete_activity_to_start": "Завершите задание, чтобы начать серию",
+      "in_progress": "В процессе",
+      "last_30_days": "Последние 30 дней",
+      "last_active": "Последняя активность",
+      "upcoming_deadlines": "Ближайшие дедлайны",
+      "no_upcoming_deadlines": "Нет ближайших дедлайнов",
+      "time_spent": "Затраченное время",
+      "time_estimated": "Оценка на основе активности",
+      "time_minutes": "{{count}} мин",
+      "time_hours": "{{count}} ч",
+      "time_hours_minutes": "{{hours}} ч {{minutes}} мин",
+      "error_loading": "Не удалось загрузить панель. Попробуйте позже."
+    }
   }
 }

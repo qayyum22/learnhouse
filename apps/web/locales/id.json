@@ -3572,5 +3572,25 @@
       "results": "{{count}} hasil untuk \"{{query}}\"",
       "results_plural": "{{count}} hasil untuk \"{{query}}\""
     }
+  },
+  "trail": {
+    "dashboard": {
+      "overall_progress": "Progres keseluruhan",
+      "streak": "Streak",
+      "days": "hari",
+      "keep_going": "Terus semangat!",
+      "complete_activity_to_start": "Selesaikan aktivitas untuk memulai streak",
+      "in_progress": "Sedang berlangsung",
+      "last_30_days": "30 hari terakhir",
+      "last_active": "Terakhir aktif",
+      "upcoming_deadlines": "Tenggat waktu mendatang",
+      "no_upcoming_deadlines": "Tidak ada tenggat waktu mendatang",
+      "time_spent": "Waktu yang dihabiskan",
+      "time_estimated": "Diperkirakan dari aktivitas",
+      "time_minutes": "{{count}} menit",
+      "time_hours": "{{count}} jam",
+      "time_hours_minutes": "{{hours}} jam {{minutes}} menit",
+      "error_loading": "Tidak dapat memuat dasbor Anda. Silakan coba lagi nanti."
+    }
   }
 }

@@ -3578,5 +3578,25 @@
       "results": "{{count}} risultato per \"{{query}}\"",
       "results_plural": "{{count}} risultati per \"{{query}}\""
     }
+  },
+  "trail": {
+    "dashboard": {
+      "overall_progress": "Progresso complessivo",
+      "streak": "Serie",
+      "days": "giorni",
+      "keep_going": "Continua così!",
+      "complete_activity_to_start": "Completa un'attività per iniziare una serie",
+      "in_progress": "In corso",
+      "last_30_days": "Ultimi 30 giorni",
+      "last_active": "Ultima attività",
+      "upcoming_deadlines": "Scadenze imminenti",
+      "no_upcoming_deadlines": "Nessuna scadenza imminente",
+      "time_spent": "Tempo impiegato",
+      "time_estimated": "Stimato dall'attività",
+      "time_minutes": "{{count}} min",
+      "time_hours": "{{count}} h",
+      "time_hours_minutes": "{{hours}} h {{minutes}} min",
+      "error_loading": "Impossibile caricare la dashboard. Riprova più tardi."
+    }
   }
 }

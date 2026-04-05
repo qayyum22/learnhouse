@@ -3641,5 +3641,25 @@
       "results": "\"{{query}}\" の検索結果 {{count}} 件",
       "results_plural": "\"{{query}}\" の検索結果 {{count}} 件"
     }
+  },
+  "trail": {
+    "dashboard": {
+      "overall_progress": "全体の進捗",
+      "streak": "連続日数",
+      "days": "日",
+      "keep_going": "この調子で！",
+      "complete_activity_to_start": "アクティビティを完了して連続記録を始めましょう",
+      "in_progress": "進行中",
+      "last_30_days": "過去30日間",
+      "last_active": "最終アクティブ",
+      "upcoming_deadlines": "今後の締め切り",
+      "no_upcoming_deadlines": "今後の締め切りはありません",
+      "time_spent": "学習時間",
+      "time_estimated": "アクティビティから推定",
+      "time_minutes": "{{count}}分",
+      "time_hours": "{{count}}時間",
+      "time_hours_minutes": "{{hours}}時間{{minutes}}分",
+      "error_loading": "ダッシュボードを読み込めませんでした。後でもう一度お試しください。"
+    }
   }
 }

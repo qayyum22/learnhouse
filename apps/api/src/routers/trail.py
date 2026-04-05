@@ -4,10 +4,12 @@ from src.db.trails import TrailCreate, TrailRead
 from src.security.auth import get_current_user
 from src.security.features_utils.dependencies import require_courses_feature
 from src.services.trail.trail import (
+    LearnerDashboard,
     Trail,
     add_activity_to_trail,
     add_course_to_trail,
     create_user_trail,
+    get_learner_dashboard,
     get_user_trails,
     get_user_trail_with_orgid,
     remove_course_from_trail,
@@ -54,6 +56,22 @@ async def api_get_trail_by_org_id(
     Get a user trails using org slug
     """
     return await get_user_trail_with_orgid(
+        request, user, org_id=org_id, db_session=db_session
+    )
+
+
+@router.get("/org/{org_id}/dashboard")
+async def api_get_learner_dashboard(
+    request: Request,
+    org_id: int,
+    user=Depends(get_current_user),
+    db_session=Depends(get_db_session),
+) -> LearnerDashboard:
+    """
+    Learner-facing momentum dashboard: overall completion, streak,
+    recent activity heatmap and upcoming assignment deadlines.
+    """
+    return await get_learner_dashboard(
         request, user, org_id=org_id, db_session=db_session
     )
 

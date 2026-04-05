@@ -4130,5 +4130,25 @@
     "step_upload": "Upload",
     "step_organize": "Organize",
     "step_complete": "Complete"
+  },
+  "trail": {
+    "dashboard": {
+      "overall_progress": "Overall progress",
+      "streak": "Streak",
+      "days": "days",
+      "keep_going": "Keep it going!",
+      "complete_activity_to_start": "Complete an activity to start a streak",
+      "in_progress": "In progress",
+      "last_30_days": "Last 30 days",
+      "last_active": "Last active",
+      "upcoming_deadlines": "Upcoming deadlines",
+      "no_upcoming_deadlines": "No upcoming deadlines",
+      "time_spent": "Time spent",
+      "time_estimated": "Estimated from activity",
+      "time_minutes": "{{count}} min",
+      "time_hours": "{{count}} hr",
+      "time_hours_minutes": "{{hours}} hr {{minutes}} min",
+      "error_loading": "Could not load your dashboard. Please try again later."
+    }
   }
 }
