@@ -9,13 +9,6 @@ const isTelemetryDisabled = getLEARNHOUSE_TELEMETRY_DISABLED_VAL() === 'true'
 import Script from 'next/script'
 import '../lib/i18n'
 import I18nProvider from '@components/Contexts/I18nContext'
-import { Wix_Madefor_Text } from 'next/font/google'
-
-const wixMadeforText = Wix_Madefor_Text({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-default',
-})
 
 export default function RootLayout({
   children,
@@ -23,7 +16,15 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html className={wixMadeforText.variable} lang="en">
+    <html
+      lang="en"
+      style={
+        {
+          '--font-default':
+            '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif',
+        } as React.CSSProperties
+      }
+    >
       <head>
         {/* Synchronous script — blocks parsing to guarantee window.__RUNTIME_CONFIG__ exists before any JS runs.
             Next.js <Script strategy="beforeInteractive"> is not truly blocking in all browsers (Safari). */}

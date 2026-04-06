@@ -1,13 +1,18 @@
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
-import { Search, ArrowRight, Sparkles, BookCopy, SquareLibrary, ArrowUpRight, TextSearch, ScanSearch, Users } from 'lucide-react';
-import { searchOrgContent } from '@services/search/search';
+import { Search, ArrowRight, Sparkles, BookCopy, SquareLibrary, ArrowUpRight, TextSearch, ScanSearch, Users, BookOpen, FileText } from 'lucide-react';
+import {
+  searchOrgContent,
+  getSearchHitHref,
+  toSearchHit,
+  activityTypeLabel,
+} from '@services/search/search';
 import { useLHSession } from '@components/Contexts/LHSessionContext';
 import Link from 'next/link';
 import { getCourseThumbnailMediaDirectory, getUserAvatarMediaDirectory } from '@services/media/media';
 import { useDebounce } from '@/hooks/useDebounce';
 import { useOrg } from '@components/Contexts/OrgContext';
 import { getUriWithOrg } from '@services/config/config';
-import { removeCoursePrefix } from '../Thumbnails/CourseThumbnail';
+
 import UserAvatar from '../UserAvatar';
 import { useTranslation } from 'react-i18next';
 import { useAnalytics } from '@/hooks/useAnalytics';
@@ -62,11 +67,33 @@ interface Collection {
   update_date: string;
 }
 
+interface ChapterResult {
+  id: number;
+  chapter_uuid: string;
+  name: string;
+  description?: string;
+  course_uuid: string;
+  course_name: string;
+}
+
+interface ActivityResult {
+  id: number;
+  activity_uuid: string;
+  name: string;
+  activity_type: string;
+  course_uuid: string;
+  course_name: string;
+}
+
 interface SearchResults {
   courses: Course[];
   collections: Collection[];
   users: User[];
+  chapters: ChapterResult[];
+  activities: ActivityResult[];
 }
+
+const EMPTY: SearchResults = { courses: [], collections: [], users: [], chapters: [], activities: [] };
 
 interface SearchBarProps {
   orgslug: string;
@@ -106,11 +133,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
   const { track } = useAnalytics();
   const colors = getMenuColorClasses(primaryColor);
   const [searchQuery, setSearchQuery] = useState('');
-  const [searchResults, setSearchResults] = useState<SearchResults>({
-    courses: [],
-    collections: [],
-    users: []
-  });
+  const [searchResults, setSearchResults] = useState<SearchResults>(EMPTY);
   const [isLoading, setIsLoading] = useState(false);
   const [showResults, setShowResults] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
@@ -134,7 +157,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
   useEffect(() => {
     const fetchResults = async () => {
       if (debouncedSearch.trim().length === 0) {
-        setSearchResults({ courses: [], collections: [], users: [] });
+        setSearchResults(EMPTY);
         setIsLoading(false);
         return;
       }
@@ -145,31 +168,32 @@ export const SearchBar: React.FC<SearchBarProps> = ({
           orgslug,
           debouncedSearch,
           1,
-          3,
+          8,
           null,
           session?.data?.tokens?.access_token
         );
-        
+
         // Type assertion and safe access
         const typedResponse = response.data as any;
 
         // Ensure we have the correct structure and handle potential undefined values
         const processedResults: SearchResults = {
-          courses: Array.isArray(typedResponse?.courses) ? typedResponse.courses : [],
-          collections: Array.isArray(typedResponse?.collections) ? typedResponse.collections : [],
-          users: Array.isArray(typedResponse?.users) ? typedResponse.users : []
+          courses: Array.isArray(typedResponse?.courses) ? typedResponse.courses.slice(0, 3) : [],
+          collections: Array.isArray(typedResponse?.collections) ? typedResponse.collections.slice(0, 3) : [],
+          users: Array.isArray(typedResponse?.users) ? typedResponse.users.slice(0, 3) : [],
+          chapters: Array.isArray(typedResponse?.chapters) ? typedResponse.chapters.slice(0, 3) : [],
+          activities: Array.isArray(typedResponse?.activities) ? typedResponse.activities.slice(0, 3) : [],
         };
 
         setSearchResults(processedResults);
 
-        const totalResults = processedResults.courses.length + processedResults.collections.length + processedResults.users.length;
         track('search_query', {
           query: debouncedSearch,
-          results_count: totalResults,
+          results_count: typedResponse?.total ?? 0,
         });
       } catch (error) {
         console.error('Error searching content:', error);
-        setSearchResults({ courses: [], collections: [], users: [] });
+        setSearchResults(EMPTY);
       }
       setIsLoading(false);
       setIsInitialLoad(false);
@@ -235,10 +259,12 @@ export const SearchBar: React.FC<SearchBarProps> = ({
   }, [searchQuery, searchTerms, orgslug, t]);
 
   const MemoizedQuickResults = useMemo(() => {
-    const hasResults = searchResults.courses.length > 0 || 
-                      searchResults.collections.length > 0 || 
-                      searchResults.users.length > 0;
-    
+    const hasResults = searchResults.courses.length > 0 ||
+                      searchResults.collections.length > 0 ||
+                      searchResults.users.length > 0 ||
+                      searchResults.chapters.length > 0 ||
+                      searchResults.activities.length > 0;
+
     if (!hasResults) return null;
     
     return (
@@ -258,7 +284,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
             {searchResults.courses.map((course) => (
               <Link
                 key={course.course_uuid}
-                href={getUriWithOrg(orgslug, `/course/${removeCoursePrefix(course.course_uuid)}`)}
+                href={getUriWithOrg(orgslug, getSearchHitHref(toSearchHit('course', course)))}
                 className="flex items-center gap-3 p-2 hover:bg-black/[0.02] rounded-lg transition-colors"
               >
                 <div className="relative">
@@ -299,7 +325,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
             {searchResults.collections.map((collection) => (
               <Link
                 key={collection.collection_uuid}
-                href={getUriWithOrg(orgslug, `/collection/${collection.collection_uuid}`)}
+                href={getUriWithOrg(orgslug, getSearchHitHref(toSearchHit('collection', collection)))}
                 className="flex items-center gap-3 p-2 hover:bg-black/[0.02] rounded-lg transition-colors"
               >
                 <div className="w-10 h-10 bg-black/5 rounded-lg flex items-center justify-center">
@@ -327,7 +353,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
             {searchResults.users.map((user) => (
               <Link
                 key={user.user_uuid}
-                href={getUriWithOrg(orgslug, `/user/${user.username}`)}
+                href={getUriWithOrg(orgslug, getSearchHitHref(toSearchHit('user', user)))}
                 className="flex items-center gap-3 p-2 hover:bg-black/[0.02] rounded-lg transition-colors"
               >
                 <UserAvatar
@@ -347,6 +373,64 @@ export const SearchBar: React.FC<SearchBarProps> = ({
                     <span className="text-[10px] font-medium text-black/40 uppercase tracking-wide whitespace-nowrap">{t('search.user')}</span>
                   </div>
                   <p className="text-xs text-black/50 truncate">@{user.username}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        )}
+
+        {/* Chapters Section */}
+        {searchResults.chapters.length > 0 && (
+          <div className="mb-2">
+            <div className="flex items-center gap-2 px-2 py-1 text-xs text-black/40">
+              <BookOpen size={12} />
+              <span>{t('search.chapters', 'Chapters')}</span>
+            </div>
+            {searchResults.chapters.map((chapter) => (
+              <Link
+                key={chapter.chapter_uuid}
+                href={getUriWithOrg(orgslug, getSearchHitHref(toSearchHit('chapter', chapter)))}
+                className="flex items-center gap-3 p-2 hover:bg-black/[0.02] rounded-lg transition-colors"
+              >
+                <div className="w-10 h-10 bg-black/5 rounded-lg flex items-center justify-center">
+                  <BookOpen size={20} className="text-black/40" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2">
+                    <h3 className="text-sm font-medium text-black/80 truncate">{chapter.name}</h3>
+                    <span className="text-[10px] font-medium text-black/40 uppercase tracking-wide whitespace-nowrap">{t('search.chapter', 'Chapter')}</span>
+                  </div>
+                  <p className="text-xs text-black/50 truncate">{chapter.course_name}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        )}
+
+        {/* Activities Section */}
+        {searchResults.activities.length > 0 && (
+          <div className="mb-2">
+            <div className="flex items-center gap-2 px-2 py-1 text-xs text-black/40">
+              <FileText size={12} />
+              <span>{t('search.activities', 'Activities')}</span>
+            </div>
+            {searchResults.activities.map((activity) => (
+              <Link
+                key={activity.activity_uuid}
+                href={getUriWithOrg(orgslug, getSearchHitHref(toSearchHit('activity', activity)))}
+                className="flex items-center gap-3 p-2 hover:bg-black/[0.02] rounded-lg transition-colors"
+              >
+                <div className="w-10 h-10 bg-black/5 rounded-lg flex items-center justify-center">
+                  <FileText size={20} className="text-black/40" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2">
+                    <h3 className="text-sm font-medium text-black/80 truncate">{activity.name}</h3>
+                    <span className="text-[10px] font-medium text-black/40 uppercase tracking-wide whitespace-nowrap">
+                      {activity.activity_type ? activityTypeLabel(activity.activity_type) : t('search.activity', 'Activity')}
+                    </span>
+                  </div>
+                  <p className="text-xs text-black/50 truncate">{activity.course_name}</p>
                 </div>
               </Link>
             ))}
@@ -397,9 +481,11 @@ export const SearchBar: React.FC<SearchBarProps> = ({
             ) : (
               <>
                 {MemoizedQuickResults}
-                {((searchResults.courses.length > 0 || 
-                   searchResults.collections.length > 0 || 
-                   searchResults.users.length > 0) || 
+                {((searchResults.courses.length > 0 ||
+                   searchResults.collections.length > 0 ||
+                   searchResults.users.length > 0 ||
+                   searchResults.chapters.length > 0 ||
+                   searchResults.activities.length > 0) ||
                    searchQuery.trim()) && (
                   <Link
                     href={getUriWithOrg(orgslug, `/search?q=${encodeURIComponent(searchQuery)}`)}
