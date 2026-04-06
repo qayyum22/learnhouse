@@ -149,6 +149,9 @@ class TestAccessDecision:
         decision = AccessDecision(allowed=True, reason="test", via_public=True)
         assert decision.via_public is True
 
+        decision = AccessDecision(allowed=True, reason="test", via_enrollment=True)
+        assert decision.via_enrollment is True
+
 
 class TestResourceAccessChecker:
     """Test cases for ResourceAccessChecker class."""
@@ -277,6 +280,33 @@ class TestResourceAccessChecker:
 
         assert decision.allowed is True
         assert decision.via_public is True
+
+    @pytest.mark.asyncio
+    async def test_check_access_private_course_via_direct_enrollment(
+        self, mock_request, mock_db_session, mock_public_user, monkeypatch
+    ):
+        """Test published private courses are readable through accepted direct enrollment."""
+        checker = ResourceAccessChecker(mock_request, mock_db_session, mock_public_user)
+
+        async def _false(*args, **kwargs):
+            return False
+
+        async def _published_private(*args, **kwargs):
+            return False, True
+
+        async def _true(*args, **kwargs):
+            return True
+
+        monkeypatch.setattr(checker, "_is_public_and_published", _published_private)
+        monkeypatch.setattr(checker, "_is_resource_author", _false)
+        monkeypatch.setattr(checker, "_is_admin_or_maintainer", _false)
+        monkeypatch.setattr(checker, "_check_usergroup_membership", _false)
+        monkeypatch.setattr(checker, "_check_course_enrollment", _true)
+
+        decision = await checker.check_access("course_123", AccessAction.READ)
+
+        assert decision.allowed is True
+        assert decision.via_enrollment is True
 
 
 class TestCheckResourceAccessFunction:

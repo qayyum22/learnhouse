@@ -47,6 +47,17 @@ from src.services.courses.contributors import (
     add_bulk_course_contributors,
     remove_bulk_course_contributors,
 )
+from src.services.courses.enrollments import (
+    invite_learners_by_email,
+    get_course_enrollments,
+    revoke_course_enrollment,
+    resend_course_enrollment_invite,
+    accept_course_enrollment_invite,
+    reject_course_enrollment_invite,
+    get_my_course_invites,
+    DEFAULT_INVITE_TTL_DAYS,
+)
+from pydantic import EmailStr
 from src.db.resource_authors import ResourceAuthorshipEnum, ResourceAuthorshipStatusEnum
 from src.services.courses.transfer import (
     export_course,
@@ -104,6 +115,51 @@ router = APIRouter(dependencies=[Depends(require_courses_feature)])
 
 
 # Static routes must come before dynamic /{course_uuid} routes
+@router.get("/enrollments/invites/mine")
+async def api_get_my_course_invites(
+    request: Request,
+    db_session: Session = Depends(get_db_session),
+    current_user: PublicUser = Depends(get_current_user),
+):
+    """
+    List all course invitations addressed to the current user
+    (pending, accepted, rejected, revoked, expired).
+    """
+    return await get_my_course_invites(request, current_user, db_session)
+
+
+@router.post("/enrollments/invites/{invite_code}/accept")
+async def api_accept_course_enrollment_invite(
+    request: Request,
+    invite_code: str,
+    db_session: Session = Depends(get_db_session),
+    current_user: PublicUser = Depends(get_current_user),
+):
+    """
+    Accept a pending course enrollment invitation using its invite code.
+    Idempotent for already-accepted invites.
+    """
+    return await accept_course_enrollment_invite(
+        request, invite_code, current_user, db_session
+    )
+
+
+@router.post("/enrollments/invites/{invite_code}/reject")
+async def api_reject_course_enrollment_invite(
+    request: Request,
+    invite_code: str,
+    db_session: Session = Depends(get_db_session),
+    current_user: PublicUser = Depends(get_current_user),
+):
+    """
+    Reject (decline) a pending course enrollment invitation.
+    """
+    return await reject_course_enrollment_invite(
+        request, invite_code, current_user, db_session
+    )
+
+
+
 @router.post("/export/batch")
 async def api_export_courses_batch(
     request: Request,
@@ -625,6 +681,114 @@ async def api_remove_bulk_course_contributors(
     """
     return await remove_bulk_course_contributors(
         request, course_uuid, usernames, current_user, db_session
+    )
+
+
+class EnrollmentInviteRequest(BaseModel):
+    """Request model for inviting learners to a course by email."""
+    emails: List[EmailStr]
+    send_invites: bool = True
+    # Days until the invite auto-expires; None disables expiry.
+    ttl_days: int | None = DEFAULT_INVITE_TTL_DAYS
+
+    @field_validator("emails")
+    @classmethod
+    def validate_emails(cls, v):
+        if len(v) == 0:
+            raise ValueError("At least one email is required")
+        if len(v) > 50:
+            raise ValueError("Maximum 50 learners can be invited at once")
+        return v
+
+    @field_validator("ttl_days")
+    @classmethod
+    def validate_ttl_days(cls, v):
+        if v is None:
+            return v
+        if v <= 0:
+            raise ValueError("Invite expiry must be at least 1 day")
+        if v > 365:
+            raise ValueError("Invite expiry cannot exceed 365 days")
+        return v
+
+
+@router.get("/{course_uuid}/enrollments")
+async def api_get_course_enrollments(
+    request: Request,
+    course_uuid: str,
+    db_session: Session = Depends(get_db_session),
+    current_user: PublicUser = Depends(get_current_user),
+):
+    """
+    List all learner enrollments / invitations for a course (all statuses).
+
+    **Required Permissions:** Course owner (CREATOR/MAINTAINER/CONTRIBUTOR) or admin.
+    """
+    return await get_course_enrollments(request, course_uuid, current_user, db_session)
+
+
+@router.post("/{course_uuid}/enrollments/invite")
+async def api_invite_learners_by_email(
+    request: Request,
+    course_uuid: str,
+    invite_request: EnrollmentInviteRequest,
+    db_session: Session = Depends(get_db_session),
+    current_user: PublicUser = Depends(get_current_user),
+):
+    """
+    Invite learners to an exclusive (non-public) course by email.
+
+    Duplicate pending/accepted invites and course authors are skipped and
+    returned under `failed` with a reason; terminal invites are reissued.
+
+    **Required Permissions:** Course owner (CREATOR/MAINTAINER/CONTRIBUTOR) or admin.
+    """
+    return await invite_learners_by_email(
+        request,
+        course_uuid,
+        invite_request.emails,
+        current_user,
+        db_session,
+        send_invites=invite_request.send_invites,
+        ttl_days=invite_request.ttl_days,
+    )
+
+
+@router.post("/{course_uuid}/enrollments/{enrollment_uuid}/resend")
+async def api_resend_course_enrollment_invite(
+    request: Request,
+    course_uuid: str,
+    enrollment_uuid: str,
+    db_session: Session = Depends(get_db_session),
+    current_user: PublicUser = Depends(get_current_user),
+):
+    """
+    Regenerate the invite token, reset expiry and re-send the email.
+    Works for pending, expired, rejected and revoked invites; fails for accepted.
+
+    **Required Permissions:** Course owner (CREATOR/MAINTAINER/CONTRIBUTOR) or admin.
+    """
+    return await resend_course_enrollment_invite(
+        request, course_uuid, enrollment_uuid, current_user, db_session
+    )
+
+
+@router.delete("/{course_uuid}/enrollments/{enrollment_uuid}")
+async def api_revoke_course_enrollment(
+    request: Request,
+    course_uuid: str,
+    enrollment_uuid: str,
+    db_session: Session = Depends(get_db_session),
+    current_user: PublicUser = Depends(get_current_user),
+):
+    """
+    Revoke a learner enrollment or cancel a pending invitation.
+    The row is kept (status=revoked) for audit and so it can be reissued later.
+
+    **Required Permissions:** Course owner (CREATOR/MAINTAINER/CONTRIBUTOR) or admin.
+    """
+    return await revoke_course_enrollment(
+        request, course_uuid, enrollment_uuid, current_user, db_session
     )
 
 

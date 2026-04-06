@@ -36,6 +36,7 @@ class AccessDecision(BaseModel):
     via_role: bool = False
     via_admin: bool = False
     via_public: bool = False
+    via_enrollment: bool = False
     resource_uuid: Optional[str] = None
     user_id: Optional[int] = None
     action: Optional[str] = None

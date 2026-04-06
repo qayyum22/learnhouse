@@ -337,6 +337,30 @@ class ResourceAccessChecker:
                         action="read",
                     )
 
+        # Rule 6: Direct course enrollment (instructor-invited learners)
+        if config.resource_type == "courses":
+            has_enrollment = await self._check_course_enrollment(resource_uuid)
+            logger.info(f"[ACCESS_CHECK] Rule 6 - has_enrollment={has_enrollment}")
+            if config.has_published_field:
+                if has_enrollment and is_published:
+                    return AccessDecision(
+                        allowed=True,
+                        reason="User is directly enrolled in course and resource is published",
+                        via_enrollment=True,
+                        resource_uuid=resource_uuid,
+                        user_id=user_id,
+                        action="read",
+                    )
+            elif has_enrollment:
+                return AccessDecision(
+                    allowed=True,
+                    reason="User is directly enrolled in course",
+                    via_enrollment=True,
+                    resource_uuid=resource_uuid,
+                    user_id=user_id,
+                    action="read",
+                )
+
         # All checks failed
         return AccessDecision(
             allowed=False,
@@ -765,6 +789,22 @@ class ResourceAccessChecker:
         membership = self.db_session.exec(membership_stmt).first()
 
         return membership is not None
+
+    async def _check_course_enrollment(self, resource_uuid: str) -> bool:
+        """Check if user has an active direct enrollment (instructor invite) for a course."""
+        user_id = self._get_user_id()
+        if user_id == 0:
+            return False
+
+        config = RESOURCE_CONFIGS["courses"]
+        resource = await self._get_resource(resource_uuid, config)
+        if not resource or getattr(resource, "id", None) is None:
+            return False
+
+        # Local import to avoid circular dependency (services import rbac)
+        from src.services.courses.enrollments import user_has_active_course_enrollment
+
+        return user_has_active_course_enrollment(self.db_session, resource.id, user_id)
 
     async def _get_resource(self, resource_uuid: str, config: ResourceConfig):
         """Get the resource from the database with caching."""
