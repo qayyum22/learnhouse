@@ -10,7 +10,7 @@ from src.routers import usergroups
 from src.routers import dev, trail, users, auth, orgs, roles, search
 from src.routers import stream
 from src.routers import api_tokens
-from src.routers.ai import ai, magicblocks, courseplanning, rag
+from src.routers.ai import ai, magicblocks, courseplanning, rag, socratic
 from src.routers.boards import boards_playground
 from src.routers.orgs import ai_credits
 from src.routers.orgs import custom_domains
@@ -205,6 +205,12 @@ v1_router.include_router(
     rag.router,
     prefix="/ai",
     tags=["ai", "rag"],
+    dependencies=[Depends(get_non_api_token_user)]
+)
+v1_router.include_router(
+    socratic.router,
+    prefix="/ai",
+    tags=["ai", "socratic"],
     dependencies=[Depends(get_non_api_token_user)]
 )
 v1_router.include_router(

@@ -66,6 +66,54 @@ export async function sendActivityAIChatMessage(
   }
 }
 
+// ============================================================================
+// Socratic Tutor
+// ============================================================================
+
+export type SocraticHintTier = 'conceptual' | 'procedural' | 'structural'
+
+export interface SocraticPriorAttempt {
+  response: string
+  tier: SocraticHintTier
+  guidance: string
+}
+
+export interface SocraticEvaluateRequest {
+  assignment_task_uuid: string
+  step_uuid: string
+  attempt_number: number
+  learner_response: string
+  prior_attempts: SocraticPriorAttempt[]
+}
+
+export interface SocraticEvaluateResponse {
+  step_uuid: string
+  attempt_number: number
+  is_correct: boolean
+  outcome: 'success' | 'failed' | 'in_progress'
+  tier: SocraticHintTier | null
+  guidance: string | null
+  worked_solution: string | null
+  attempts_remaining: number
+  assignment_task_submission_uuid: string | null
+}
+
+export async function evaluateSocraticAttempt(
+  payload: SocraticEvaluateRequest,
+  access_token: string
+): Promise<{ success: boolean; data: SocraticEvaluateResponse; status: number }> {
+  const result = await fetch(
+    `${getAPIUrl()}ai/socratic/evaluate`,
+    RequestBodyWithAuthHeader('POST', payload, null, access_token)
+  )
+  const json = await result.json()
+  return {
+    success: result.status === 200,
+    data: json,
+    status: result.status,
+  }
+}
+
 // Streaming response types
 export interface StreamStartData {
   aichat_uuid: string

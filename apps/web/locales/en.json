@@ -3342,6 +3342,30 @@
             "hint_used": "Hint used",
             "hint_not_used": "No hint used",
             "not_configured": "This Socratic problem has not been configured yet.",
+            "tutor": {
+              "enable_label": "Enable Socratic Tutor (strict 3-attempt mentor)",
+              "enable_hint": "Learners get three attempts per step. After each miss the tutor escalates: conceptual → procedural → structural. The worked solution is only revealed after three misses. The expected insight is used as the grading rubric.",
+              "attempt_of": "Attempt {{attempt}} / {{max}}",
+              "tier_conceptual": "Conceptual guidance",
+              "tier_procedural": "Procedural scaffold",
+              "tier_structural": "Structural hint",
+              "check_attempt": "Check attempt {{attempt}} of {{max}}",
+              "attempts_remaining": "{{remaining}} attempt(s) remaining",
+              "outcome_success": "Step solved",
+              "outcome_success_detail": "You reached the expected insight on attempt {{attempt}}. No further attempts needed for this step.",
+              "outcome_failed": "Attempts exhausted",
+              "worked_solution": "Worked solution",
+              "worked_solution_placeholder": "Write the full worked solution shown only after the learner exhausts all three attempts...",
+              "badge_solved": "Solved on attempt {{attempt}}",
+              "badge_revealed": "Solution revealed",
+              "badge_in_progress": "{{used}}/{{max}} attempts used",
+              "errors": {
+                "resolve_first": "Finish this step with the tutor before moving on.",
+                "evaluation_failed": "The tutor could not evaluate that attempt. Please try again.",
+                "expected_insight_required": "Every tutor-enabled step needs an expected insight before saving.",
+                "worked_solution_required": "Every tutor-enabled step needs a worked solution before saving."
+              }
+            },
             "errors": {
               "last_step": "Cannot delete the last step. At least one guided step is required.",
               "answer_first": "Write your reasoning for this step before continuing.",
