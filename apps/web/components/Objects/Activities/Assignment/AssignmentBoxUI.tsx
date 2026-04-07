@@ -1,11 +1,11 @@
 import { useAssignmentSubmission } from '@components/Contexts/Assignments/AssignmentSubmissionContext'
-import { BookPlus, BookUser, EllipsisVertical, FileUp, Forward, InfoIcon, ListTodo, Save, Type } from 'lucide-react'
+import { BookPlus, BookUser, BrainCircuit, EllipsisVertical, FileUp, Forward, InfoIcon, ListTodo, Save, Type } from 'lucide-react'
 import React from 'react'
 import { useLHSession } from '@components/Contexts/LHSessionContext'
 import { useTranslation } from 'react-i18next'
 
 type AssignmentBoxProps = {
-    type: 'quiz' | 'file' | 'form'
+    type: 'quiz' | 'file' | 'form' | 'socratic'
     view?: 'teacher' | 'student' | 'grading' | 'custom-grading'
     maxPoints?: number
     currentPoints?: number
@@ -46,6 +46,11 @@ function AssignmentBoxUI({ type, view, currentPoints, maxPoints, saveFC, submitF
                             <div className='flex space-x-1.5 items-center'>
                                 <Type size={17} />
                                 <p>{t('activities.form')}</p>
+                            </div>}
+                        {type === 'socratic' &&
+                            <div className='flex space-x-1.5 items-center'>
+                                <BrainCircuit size={17} />
+                                <p>{t('activities.socratic_problem')}</p>
                             </div>}
                     </div>
 

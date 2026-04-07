@@ -2,7 +2,7 @@ import { useAssignmentsTaskDispatch } from '@components/Contexts/Assignments/Ass
 import { useLHSession } from '@components/Contexts/LHSessionContext';
 import { getAPIUrl } from '@services/config/config';
 import { createAssignmentTask } from '@services/courses/assignments'
-import { AArrowUp, FileUp, ListTodo } from 'lucide-react'
+import { AArrowUp, BrainCircuit, FileUp, ListTodo } from 'lucide-react'
 import React from 'react'
 import toast from 'react-hot-toast';
 import { mutate } from 'swr';
@@ -74,6 +74,15 @@ function NewTaskModal({ closeModal, assignment_uuid }: any) {
         </div>
         <p className='text-xl text-gray-700 font-semibold'>{t('dashboard.assignments.editor.task_types.form.title')}</p>
         <p className='text-sm text-gray-500 w-40'>{t('dashboard.assignments.editor.task_types.form.description')}</p>
+      </div>
+      <div
+        onClick={() => createTask('SOCRATIC_PROBLEM')}
+        className='flex flex-col space-y-2 justify-center  text-center pt-10'>
+        <div className='px-5 py-5 rounded-full nice-shadow w-fit mx-auto bg-gray-100/50 text-gray-500 cursor-pointer hover:bg-gray-100 transition-all ease-linear'>
+          <BrainCircuit size={30} />
+        </div>
+        <p className='text-xl text-gray-700 font-semibold'>{t('dashboard.assignments.editor.task_types.socratic_problem.title')}</p>
+        <p className='text-sm text-gray-500 w-40'>{t('dashboard.assignments.editor.task_types.socratic_problem.description')}</p>
       </div>
     </div>
   )

@@ -5,6 +5,7 @@ import React from 'react'
 import TaskQuizObject from '../../_components/TaskEditor/Subs/TaskTypes/TaskQuizObject';
 import TaskFileObject from '../../_components/TaskEditor/Subs/TaskTypes/TaskFileObject';
 import TaskFormObject from '../../_components/TaskEditor/Subs/TaskTypes/TaskFormObject';
+import TaskSocraticObject from '../../_components/TaskEditor/Subs/TaskTypes/TaskSocraticObject';
 import { useOrg } from '@components/Contexts/OrgContext';
 import { getTaskRefFileDir } from '@services/media/media';
 import { deleteUserSubmission, markActivityAsDoneForUser, putFinalGrade } from '@services/courses/assignments';
@@ -89,6 +90,7 @@ function EvaluateAssignment({ user_id }: any) {
                             {task.assignment_type === 'QUIZ' && <TaskQuizObject key={task.assignment_task_uuid} view='grading' user_id={user_id} assignmentTaskUUID={task.assignment_task_uuid} />}
                             {task.assignment_type === 'FILE_SUBMISSION' && <TaskFileObject key={task.assignment_task_uuid} view='custom-grading' user_id={user_id} assignmentTaskUUID={task.assignment_task_uuid} />}
                             {task.assignment_type === 'FORM' && <TaskFormObject key={task.assignment_task_uuid} view='grading' user_id={user_id} assignmentTaskUUID={task.assignment_task_uuid} />}
+                            {task.assignment_type === 'SOCRATIC_PROBLEM' && <TaskSocraticObject key={task.assignment_task_uuid} view='custom-grading' user_id={user_id} assignmentTaskUUID={task.assignment_task_uuid} />}
                         </div>
                     </div>
                 )

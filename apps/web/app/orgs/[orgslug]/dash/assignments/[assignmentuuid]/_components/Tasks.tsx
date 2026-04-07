@@ -1,6 +1,6 @@
 import { useAssignments } from '@components/Contexts/Assignments/AssignmentContext'
 import Modal from '@components/Objects/StyledElements/Modal/Modal';
-import { FileUp, ListTodo, PanelLeftOpen, Plus, Type } from 'lucide-react';
+import { BrainCircuit, FileUp, ListTodo, PanelLeftOpen, Plus, Type } from 'lucide-react';
 import React, { useEffect } from 'react'
 import NewTaskModal from './Modals/NewTaskModal';
 import { useAssignmentsTask, useAssignmentsTaskDispatch } from '@components/Contexts/Assignments/AssignmentsTaskContext';
@@ -54,6 +54,7 @@ function AssignmentTasks({ assignment_uuid }: any) {
                                         {task.assignment_type === 'QUIZ' && <ListTodo size={15} />}
                                         {task.assignment_type === 'FILE_SUBMISSION' && <FileUp size={15} />}
                                         {task.assignment_type === 'FORM' && <Type size={15} />}
+                                        {task.assignment_type === 'SOCRATIC_PROBLEM' && <BrainCircuit size={15} />}
                                     </div>
                                     <div className='font-semibold text-sm'>{task.title}</div>
                                 </div>

@@ -1134,6 +1134,7 @@
     "quiz": "Quiz",
     "file_submission": "File Submission",
     "form": "Form",
+    "socratic_problem": "Socratic Problem",
     "interactive": "Interactive",
     "activities": "Activities",
     "current_activity": "Current Activity",
@@ -3315,6 +3316,39 @@
           "form": {
             "title": "Form",
             "description": "Fill-in-the-blank forms for students"
+          },
+          "socratic_problem": {
+            "title": "Socratic Problem",
+            "description": "Guide learners through a problem with step-by-step questioning",
+            "learning_objective": "Learning objective",
+            "learning_objective_placeholder": "What should the learner understand after solving this?",
+            "problem_statement": "Problem statement",
+            "problem_statement_placeholder": "Describe the scenario or question the learner will work through...",
+            "step_label": "Step {{number}}",
+            "guiding_question_placeholder": "Guiding question — what should the learner consider at this step?",
+            "expected_insight": "Expected insight",
+            "expected_insight_placeholder": "Expected insight / model answer (revealed after the learner responds)",
+            "hint_placeholder": "Hint (optional — learner can reveal if stuck)",
+            "add_step": "Add guided step",
+            "reveal_hint": "Need a hint?",
+            "reveal_insight": "Compare with the expected insight",
+            "response_placeholder": "Write your reasoning here...",
+            "next_step": "Next step",
+            "previous_step": "Previous",
+            "final_step": "Final step — save your progress above",
+            "step_progress": "Step {{current}} of {{total}}",
+            "your_reasoning": "Your reasoning so far",
+            "student_response": "Learner response",
+            "hint_used": "Hint used",
+            "hint_not_used": "No hint used",
+            "not_configured": "This Socratic problem has not been configured yet.",
+            "errors": {
+              "last_step": "Cannot delete the last step. At least one guided step is required.",
+              "answer_first": "Write your reasoning for this step before continuing.",
+              "problem_statement_required": "Please enter a problem statement before saving.",
+              "guiding_question_required": "Every step needs a guiding question before saving.",
+              "steps_required": "Add at least one guided step with a question before saving."
+            }
           }
         },
         "toasts": {

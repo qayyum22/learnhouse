@@ -91,6 +91,7 @@ class AssignmentTaskTypeEnum(str, Enum):
     FILE_SUBMISSION = "FILE_SUBMISSION"
     QUIZ = "QUIZ"
     FORM = "FORM"  # soon to be implemented
+    SOCRATIC_PROBLEM = "SOCRATIC_PROBLEM"
     OTHER = "OTHER"
 
 
