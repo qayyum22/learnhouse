@@ -6,7 +6,7 @@ RUN apk update && apk add --no-cache libc6-compat && rm -rf /var/cache/apk/*
 WORKDIR /app
 
 COPY apps/web/package.json apps/web/bun.lock* ./
-RUN bun install --frozen-lockfile
+RUN bun install
 
 # ───────────────────────────────────────────────
 # Stage 2: Frontend build

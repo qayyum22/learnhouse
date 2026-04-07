@@ -28,7 +28,7 @@ function AssignmentTasks({ assignment_uuid }: any) {
                     isDialogOpen={isNewTaskModalOpen}
                     onOpenChange={setIsNewTaskModalOpen}
                     minHeight="sm"
-                    minWidth='sm'
+                    minWidth='md'
                     dialogContent={
                         <NewTaskModal assignment_uuid={assignment_uuid} closeModal={setIsNewTaskModalOpen} />
                     }

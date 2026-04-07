@@ -38,6 +38,16 @@ function NewTaskModal({ closeModal, assignment_uuid }: any) {
       max_grade_value: 100,
     }
     const res = await createAssignmentTask(task_object, assignment_uuid, access_token)
+
+    if (!res.success) {
+      toast.error(
+        res?.data?.detail ||
+        res?.data?.message ||
+        'Unable to create task'
+      )
+      return
+    }
+
     toast.success(t('dashboard.assignments.editor.toasts.task_created'))
     showReminderToast()
     mutate(`${getAPIUrl()}assignments/${assignment_uuid}/tasks`)
@@ -45,45 +55,53 @@ function NewTaskModal({ closeModal, assignment_uuid }: any) {
     closeModal(false)
   }
 
+  const taskOptions = [
+    {
+      type: 'SOCRATIC_PROBLEM',
+      icon: BrainCircuit,
+      title: t('dashboard.assignments.editor.task_types.socratic_problem.title'),
+      description: t('dashboard.assignments.editor.task_types.socratic_problem.description'),
+    },
+    {
+      type: 'QUIZ',
+      icon: ListTodo,
+      title: t('dashboard.assignments.editor.task_types.quiz.title'),
+      description: t('dashboard.assignments.editor.task_types.quiz.description'),
+    },
+    {
+      type: 'FILE_SUBMISSION',
+      icon: FileUp,
+      title: t('dashboard.assignments.editor.task_types.file_submission.title'),
+      description: t('dashboard.assignments.editor.task_types.file_submission.description'),
+    },
+    {
+      type: 'FORM',
+      icon: AArrowUp,
+      title: t('dashboard.assignments.editor.task_types.form.title'),
+      description: t('dashboard.assignments.editor.task_types.form.description'),
+    },
+  ]
 
   return (
-    <div className='flex space-x-6 mx-auto justify-center items-center'>
-      <div
-        onClick={() => createTask('QUIZ')}
-        className='flex flex-col space-y-2 justify-center  text-center pt-10'>
-        <div className='px-5 py-5 rounded-full nice-shadow w-fit mx-auto bg-gray-100/50 text-gray-500 cursor-pointer hover:bg-gray-100 transition-all ease-linear'>
-          <ListTodo size={30} />
-        </div>
-        <p className='text-xl text-gray-700 font-semibold'>{t('dashboard.assignments.editor.task_types.quiz.title')}</p>
-        <p className='text-sm text-gray-500 w-40'>{t('dashboard.assignments.editor.task_types.quiz.description')}</p>
-      </div>
-      <div
-        onClick={() => createTask('FILE_SUBMISSION')}
-        className='flex flex-col space-y-2 justify-center  text-center pt-10'>
-        <div className='px-5 py-5 rounded-full nice-shadow w-fit mx-auto bg-gray-100/50 text-gray-500 cursor-pointer hover:bg-gray-100 transition-all ease-linear'>
-          <FileUp size={30} />
-        </div>
-        <p className='text-xl text-gray-700 font-semibold'>{t('dashboard.assignments.editor.task_types.file_submission.title')}</p>
-        <p className='text-sm text-gray-500 w-40'>{t('dashboard.assignments.editor.task_types.file_submission.description')}</p>
-      </div>
-      <div
-        onClick={() => createTask('FORM')}
-        className='flex flex-col space-y-2 justify-center  text-center pt-10'>
-        <div className='px-5 py-5 rounded-full nice-shadow w-fit mx-auto bg-gray-100/50 text-gray-500 cursor-pointer hover:bg-gray-100 transition-all ease-linear'>
-          <AArrowUp size={30} />
-        </div>
-        <p className='text-xl text-gray-700 font-semibold'>{t('dashboard.assignments.editor.task_types.form.title')}</p>
-        <p className='text-sm text-gray-500 w-40'>{t('dashboard.assignments.editor.task_types.form.description')}</p>
-      </div>
-      <div
-        onClick={() => createTask('SOCRATIC_PROBLEM')}
-        className='flex flex-col space-y-2 justify-center  text-center pt-10'>
-        <div className='px-5 py-5 rounded-full nice-shadow w-fit mx-auto bg-gray-100/50 text-gray-500 cursor-pointer hover:bg-gray-100 transition-all ease-linear'>
-          <BrainCircuit size={30} />
-        </div>
-        <p className='text-xl text-gray-700 font-semibold'>{t('dashboard.assignments.editor.task_types.socratic_problem.title')}</p>
-        <p className='text-sm text-gray-500 w-40'>{t('dashboard.assignments.editor.task_types.socratic_problem.description')}</p>
-      </div>
+    <div className='mx-auto grid w-full max-w-4xl grid-cols-2 gap-3 px-2 py-2 md:grid-cols-4'>
+      {taskOptions.map((taskOption) => {
+        const Icon = taskOption.icon
+
+        return (
+          <button
+            key={taskOption.type}
+            type='button'
+            onClick={() => createTask(taskOption.type)}
+            className='flex min-h-36 flex-col items-center justify-center rounded-2xl border border-gray-200 bg-white px-3 py-4 text-center transition-all ease-linear hover:-translate-y-0.5 hover:border-gray-300 hover:bg-gray-50 hover:shadow-lg'
+          >
+            <div className='mb-2 rounded-full bg-gray-100/80 p-3 text-gray-500 nice-shadow'>
+              <Icon size={24} />
+            </div>
+            <p className='text-base font-semibold text-gray-700 sm:text-lg'>{taskOption.title}</p>
+            <p className='mt-1 max-w-44 text-xs leading-snug text-gray-500 sm:text-sm'>{taskOption.description}</p>
+          </button>
+        )
+      })}
     </div>
   )
 }
